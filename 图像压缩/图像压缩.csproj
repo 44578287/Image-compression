@@ -113,6 +113,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MODE\DisplayOutput.cs" />
     <Compile Include="MODE\ImageCompression.cs" />
     <Compile Include="主程序.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
