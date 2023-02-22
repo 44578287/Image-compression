@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 using ImageMagick;
 using static 图像压缩.MODE.DisplayOutput;
@@ -38,14 +36,14 @@ namespace 图像压缩.MODE
             {
                 using (var image = new MagickImage(FilePathIn))
                 {
-                    ConsoleEnhanced.WriteLine(Path.GetFileName(FilePathIn) + " 添加列队成功!",ConsoleColor.Cyan);
+                    //ConsoleEnhanced.WriteLine(Path.GetFileName(FilePathIn) + " 添加列队成功!", ConsoleColor.Cyan);
                     await image.WriteAsync(FilePathOut);
-                    ConsoleEnhanced.WriteLine(Path.GetFileName(FilePathOut) + " 压缩成功!",ConsoleColor.Green);
+                    //ConsoleEnhanced.WriteLine(Path.GetFileName(FilePathOut) + " 压缩成功!", ConsoleColor.Green);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ConsoleEnhanced.WriteLine($"错误: {ex.Message} 对于文件 {FilePathIn}",ConsoleColor.Red);
+                ConsoleEnhanced.WriteLine($"错误: {ex.Message} 对于文件 {FilePathIn}", ConsoleColor.Red);
                 return null;
             }
             return FilePathOut;
@@ -57,7 +55,7 @@ namespace 图像压缩.MODE
         /// <param name="list">任务列表</param>
         /// <param name="FilesPath">输出目录</param>
         /// <param name="Format">目标格式</param>
-        public static void Director(string dir, List<Task<string>> list, string FilesPath, string Format )
+        public static void Director(string dir, List<Task<string>> list, string FilesPath, string Format)
         {
             DirectoryInfo d = new DirectoryInfo(dir);
             FileInfo[] files = d.GetFiles();//文件
@@ -77,7 +75,7 @@ namespace 图像压缩.MODE
         }
 
 
-        public static void DirectorStartNewStop(string dir, List<Task<string>> List, string FilesPath, string Format,List<Task> ListFor)
+        public static void DirectorStartNewStop(string dir, List<Task<string>> ListFor, string FilesPath, string Format)
         {
             DirectoryInfo d = new DirectoryInfo(dir);
             FileInfo[] files = d.GetFiles();//文件
@@ -85,7 +83,7 @@ namespace 图像压缩.MODE
             foreach (FileInfo f in files)
             {
                 //ListFor.Add(Task.Factory.StartNew( () =>  Compression(f.FullName, $"{FilesPath}/{Path.GetFileNameWithoutExtension(f.Name)}.{Format}")));
-                ListFor.Add(Task.Run( () => Compression(f.FullName, $"{FilesPath}/{Path.GetFileNameWithoutExtension(f.Name)}.{Format}")));
+                ListFor.Add(Task.Run(() => Compression(f.FullName, $"{FilesPath}/{Path.GetFileNameWithoutExtension(f.Name)}.{Format}")));
                 //data = Task.Factory.StartNew(() => Compression(f.FullName, $"{FilesPath}/{Path.GetFileNameWithoutExtension(f.Name)}.{Format}"));
                 //Console.WriteLine(Data.Wait());
                 //Console.WriteLine(f.FullName + " ");
@@ -93,7 +91,7 @@ namespace 图像压缩.MODE
             //获取子文件夹内的文件列表，递归遍历  
             foreach (DirectoryInfo dd in directs)
             {
-                 DirectorStartNewStop(dd.FullName, List, FilesPath, Format, ListFor);
+                DirectorStartNewStop(dd.FullName, ListFor, FilesPath, Format);
             }
             //ListFor[ListFor.Count - 1];
             //Console.WriteLine(ListFor.Count);
